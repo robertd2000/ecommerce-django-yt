@@ -7,17 +7,36 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/:category_slug/:product_slug/',
+      name: 'product',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
+      component: () => import('../views/Product.vue'),
+    },
+    {
+      path: '/:category_slug/',
+      name: 'category',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Category.vue'),
+    },
+  ],
+})
+
+router.beforeEach((to, from, next) => {
+  if (
+    to.matched.some((record) => record.meta.requireLogin) &&
+    !store.state.isAuthenticated
+  ) {
+    next({ name: 'LogIn', query: { to: to.path } })
+  } else {
+    next()
+  }
 })
 
 export default router
