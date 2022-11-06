@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\djackets\product\urls.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\djackets\product\views.py">
           <value>
             <Attribute>

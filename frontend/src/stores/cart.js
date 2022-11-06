@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { save } from '../utils/helpers'
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref([])
@@ -9,7 +10,7 @@ export const useCartStore = defineStore('cart', () => {
     if (localStorage.getItem('cart')) {
       items.value = JSON.parse(localStorage.getItem('cart'))
     } else {
-      localStorage.setItem('cart', JSON.stringify(items.value))
+      save(items.value)
     }
   }
 
@@ -21,7 +22,7 @@ export const useCartStore = defineStore('cart', () => {
       items.value.push(item)
     }
 
-    localStorage.setItem('cart', JSON.stringify(items.value))
+    save(items.value)
   }
 
   const setLoading = (status) => (loading.value = status)

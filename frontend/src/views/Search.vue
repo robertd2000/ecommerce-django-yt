@@ -1,15 +1,17 @@
 <script setup>
 import ProductBox from '../components/ProductBox.vue'
-import { useCategory } from '../composables/useCategory'
+import { useSearch } from '../composables/useSearch'
 
-const { name, products } = useCategory()
+const { query, products } = useSearch()
 </script>
 
 <template>
-  <div class="page-category">
+  <div class="page-search">
     <div class="columns is-multiline">
       <div class="column is-12">
-        <h2 class="is-size-2 has-text-centered">{{ name }}</h2>
+        <h1 class="title">Search</h1>
+
+        <h2 class="is-size-5 has-text-grey">Search term: "{{ query }}"</h2>
       </div>
 
       <ProductBox
@@ -20,5 +22,3 @@ const { name, products } = useCategory()
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped></style>

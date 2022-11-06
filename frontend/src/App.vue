@@ -1,30 +1,13 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { computed } from '@vue/reactivity'
 import { RouterLink, RouterView } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import 'bulma'
 
-import { useCartStore } from './stores/cart'
 import Spinner from './components/Spinner.vue'
+import { useProducts } from './composables/useProducts'
+import { useAuth } from './composables/useAuth'
 
-const store = useCartStore()
-const { items, loading } = storeToRefs(store)
-const showMobileMenu = ref(false)
-
-const cartLength = computed(() => {
-  let total = 0
-
-  for (let i = 0; i < items.value.length; i++) {
-    total += items.value[i].quantity
-  }
-
-  return total
-})
-
-onMounted(() => {
-  store.initializeStore()
-})
+const { loading, cartLength, showMobileMenu } = useProducts()
+const { token } = useAuth()
 </script>
 
 <template>
@@ -52,6 +35,31 @@ onMounted(() => {
         id="navbar-menu"
         :class="{ 'is-active': showMobileMenu }"
       >
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <form method="get" action="/search">
+              <div class="field has-addons">
+                <div class="control">
+                  <input
+                    type="text"
+                    class="input"
+                    placeholder="What are you looking for?"
+                    name="query"
+                  />
+                </div>
+
+                <div class="control">
+                  <button class="button is-success">
+                    <span class="icon">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
         <div class="navbar-end">
           <RouterLink to="/summer" class="navbar-item">Summer</RouterLink>
           <RouterLink to="/winter" class="navbar-item">Winter</RouterLink>

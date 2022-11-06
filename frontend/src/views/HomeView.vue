@@ -1,32 +1,9 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
-
-import { useCartStore } from '../stores/cart'
-import { storeToRefs } from 'pinia'
-
 import ProductBox from '../components/ProductBox.vue'
 import Spinner from '../components/Spinner.vue'
+import { useProducts } from '../composables/useProducts'
 
-const store = useCartStore()
-const { loading } = storeToRefs(store)
-const latestProducts = ref([])
-
-onMounted(() => {
-  getLatestProducts()
-})
-
-const getLatestProducts = async () => {
-  store.setLoading(true)
-  try {
-    const response = await axios.get('/api/v1/latest-products/')
-    latestProducts.value = response.data
-  } catch (e) {
-    console.log(e)
-  } finally {
-    store.setLoading(false)
-  }
-}
+const { latestProducts } = useProducts()
 </script>
 
 <template>
